@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LightOS Banner Generator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Semi+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#111;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+}
+
+canvas{
+    max-width:100%;
+    height:auto;
+}
+</style>
+</head>
+<body>
+
+<canvas id="canvas"></canvas>
+
+<script>
+
+const params = new URLSearchParams(location.search);
+const device = (params.get("device") || "INGRES").toUpperCase();
+
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+const img = new Image();
+
+document.fonts.ready.then(() => {
+    img.src = "banner.png";
+});
+
+img.onload = () => {
+
+    canvas.width = img.width;
+    canvas.height = img.height;
+
+    ctx.drawImage(img,0,0);
+
+    //-----------------------------------
+    // НАСТРОЙКИ
+    //-----------------------------------
+
+    const x = -1;
+    const y = 12;
+
+    const height = 83;
+    const minWidth = 285;
+
+    const leftPadding = 44;
+    const rightPadding = 32;
+
+    const radius = 43;
+
+    const fontSize = 51;
+
+    //-----------------------------------
+
+    ctx.font = '600 51px "Sofia Sans Semi Condensed"';
+    ctx.textBaseline = "middle";
+    ctx.textAlign = "left";
+    ctx.fillStyle = "#fff";
+
+    // если браузер поддерживает
+    if ("letterSpacing" in ctx) {
+        ctx.letterSpacing = "3px";
+    }
+
+    const textWidth = ctx.measureText(device).width;
+
+    const width = Math.max(
+        minWidth,
+        textWidth + leftPadding + rightPadding
+    );
+
+    //-----------------------------------
+    // ФОН
+    //-----------------------------------
+
+    roundRect(ctx,x,y,width,height,radius);
+
+    ctx.fillStyle="#050505";
+    ctx.fill();
+
+    //-----------------------------------
+    // РАМКА
+    //-----------------------------------
+
+    ctx.strokeStyle="#b8892e";
+    ctx.lineWidth=2;
+    ctx.stroke();
+
+    //-----------------------------------
+    // ТЕКСТ
+    //-----------------------------------
+
+    ctx.fillStyle="#ffffff";
+
+    ctx.fillText(
+        device,
+        x + leftPadding,
+        y + height / 2 + 1
+    );
+
+};
+
+function roundRect(ctx,x,y,w,h,r){
+
+    ctx.beginPath();
+
+    ctx.moveTo(x,y);
+
+    ctx.lineTo(x+w-r,y);
+    ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+
+    ctx.lineTo(x+w,y+h-r);
+    ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+
+    ctx.lineTo(x,y+h);
+
+    ctx.lineTo(x,y);
+
+    ctx.closePath();
+
+}
+
+</script>
+
+</body>
+</html>
