@@ -3,13 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <title>LightOS Banner Generator</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Semi+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
+@font-face {
+    font-family: "evolve_bold";
+    src: url("evolve_medium.ttf") format("truetype");
+}
 
+body {
+    font-family: "evolve_bold", sans-serif;
+}
 
 *{
     margin:0;
@@ -45,7 +48,7 @@ const ctx = canvas.getContext("2d");
 
 const img = new Image();
 
-document.fonts.ready.then(() => {
+document.fonts.load('51px "evolve_bold"').then(() => {
     img.src = "banner.png";
 });
 
@@ -75,7 +78,7 @@ img.onload = () => {
 
     //-----------------------------------
 
-    ctx.font = '600 51px "Sofia Sans Semi Condensed"';
+    ctx.font = '51px "evolve_bold"';
     ctx.textBaseline = "middle";
     ctx.textAlign = "left";
     ctx.fillStyle = "#fff";
