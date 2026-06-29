@@ -59,6 +59,8 @@ img.onload = () => {
 
     ctx.drawImage(img,0,0);
 
+
+
     //-----------------------------------
     // НАСТРОЙКИ
     //-----------------------------------
@@ -124,7 +126,28 @@ img.onload = () => {
         y + height / 2 + 1
     );
 
+    const url = canvas.toDataURL("image/png");
+
+    document.body.innerHTML = "";
+
+    const result = document.createElement("img");
+    result.src = url;
+    result.style.display = "block";
+    result.style.maxWidth = "100vw";
+    result.style.height = "auto";
+
+    document.body.appendChild(result);
+
+    
+
 };
+
+img.onerror = (e) => {
+    console.error("Не удалось загрузить banner.png", e);
+};
+
+// Загружаем изображение
+img.src = "banner.png";
 
 function roundRect(ctx,x,y,w,h,r){
 
